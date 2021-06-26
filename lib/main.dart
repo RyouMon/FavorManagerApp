@@ -71,4 +71,38 @@ class FavorsPage extends StatelessWidget {
       child: Text(title),
     );
   }
+
+  Widget _favorsList(String title, List<Favor> favors) {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 16.0),
+          child: Text(title),
+        ),
+        Expanded(
+            child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          itemCount: favors.length,
+          itemBuilder: (BuildContext context, int index) {
+            final favor = favors[index];
+            return Card(
+              key: ValueKey(favor.uuid),
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+              child: Padding(
+                child: Column(
+                  children: <Widget>[
+                    _itemHeader(favor),
+                    Text(favor.description),
+                    _itemFooter(favor),
+                  ],
+                ),
+                padding: EdgeInsets.all(8.0),
+              ),
+            );
+          },
+        ))
+      ],
+    );
+  }
 }
