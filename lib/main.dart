@@ -39,7 +39,30 @@ class FavorsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Your favors"),
+          bottom: TabBar(tabs: [
+            _buildCategoryTab("Requests"),
+            _buildCategoryTab("Doing"),
+            _buildCategoryTab("Completed"),
+            _buildCategoryTab("Refused"),
+          ]),
+        ),
+        body: TabBarView(children: [
+          _favorsList("Pending Requests", pendingAnswerFavors),
+          _favorsList("Doing", acceptedFavors),
+          _favorsList("Completed", completedFavors),
+          _favorsList("Refused", refusedFavors),
+        ]),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          tooltip: 'Ask a favor',
+          child: Icon(Icons.add),
+        ),
+      ),
+    );
   }
 }
