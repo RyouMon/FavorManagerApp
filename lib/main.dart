@@ -105,4 +105,21 @@ class FavorsPage extends StatelessWidget {
       ],
     );
   }
+
+  Row _itemHeader(Favor favor) {
+    return Row(
+      children: <Widget>[
+        CircleAvatar(
+          backgroundImage: NetworkImage(
+            favor.friend.photoURL,
+          ),
+        ),
+        Expanded(
+            child: Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text("${favor.friend.name} asked you to"),
+        ))
+      ],
+    );
+  }
 }
