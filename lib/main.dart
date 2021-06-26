@@ -56,10 +56,10 @@ class FavorsPage extends StatelessWidget {
           ]),
         ),
         body: TabBarView(children: [
-          _favorsList("Pending Requests", pendingAnswerFavors),
-          _favorsList("Doing", acceptedFavors),
-          _favorsList("Completed", completedFavors),
-          _favorsList("Refused", refusedFavors),
+          FavorsList(title: "Pending Requests", favors: pendingAnswerFavors),
+          FavorsList(title: "Doing", favors: acceptedFavors),
+          FavorsList(title: "Completed", favors: completedFavors),
+          FavorsList(title: "Refused", favors: refusedFavors),
         ]),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
@@ -75,38 +75,54 @@ class FavorsPage extends StatelessWidget {
       child: Text(title),
     );
   }
+}
 
-  Widget _favorsList(String title, List<Favor> favors) {
+class FavorsList extends StatelessWidget {
+  final String title;
+  final List<Favor> favors;
+
+  const FavorsList({Key? key, required this.title, required this.favors})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 16.0),
-          child: Text(title),
-        ),
+        Padding(padding: EdgeInsets.only(top: 16.0), child: Text(title)),
         Expanded(
             child: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: favors.length,
-          itemBuilder: (BuildContext context, int index) {
-            final favor = favors[index];
-            return Card(
-              key: ValueKey(favor.uuid),
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-              child: Padding(
-                child: Column(
-                  children: <Widget>[
-                    _itemHeader(favor),
-                    Text(favor.description),
-                    _itemFooter(favor),
-                  ],
-                ),
-                padding: EdgeInsets.all(8.0),
-              ),
-            );
-          },
-        ))
+                itemBuilder: (BuildContext context, int index) {
+                  final favor = favors[index];
+                  return FavorCardItem(favor: favor);
+                },
+                itemCount: favors.length,
+                physics: BouncingScrollPhysics()))
       ],
+    );
+  }
+}
+
+class FavorCardItem extends StatelessWidget {
+  final Favor favor;
+
+  const FavorCardItem({Key? key, required this.favor}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      key: ValueKey(favor.uuid),
+      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            _itemHeader(favor),
+            Text(favor.description),
+            _itemFooter(favor),
+          ],
+        ),
+      ),
     );
   }
 
@@ -224,6 +240,7 @@ class RequestFavorPage extends StatelessWidget {
               )
             ],
           ),
-        ));
+        ) // continues below,
+        );
   }
 }
