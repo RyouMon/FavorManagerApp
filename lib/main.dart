@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:favors_manager/mock_values.dart';
 import 'package:favors_manager/favor.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MyApp());
@@ -121,5 +122,40 @@ class FavorsPage extends StatelessWidget {
         ))
       ],
     );
+  }
+
+  Widget _itemFooter(Favor favor) {
+    if (favor.isCompleted) {
+      final format = DateFormat();
+      return Container(
+        margin: EdgeInsets.only(top: 8.0),
+        alignment: Alignment.centerRight,
+        child: Chip(
+          label: Text("Completed at: ${format.format(favor.completed!)}"),
+        ),
+      );
+    }
+
+    if (favor.isRequested) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          TextButton(onPressed: () {}, child: Text("Refuse")),
+          TextButton(onPressed: () {}, child: Text("Do")),
+        ],
+      );
+    }
+
+    if (favor.isDoing) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          TextButton(onPressed: () {}, child: Text("Give up")),
+          TextButton(onPressed: () {}, child: Text("Complete")),
+        ],
+      );
+    }
+
+    return Container();
   }
 }
