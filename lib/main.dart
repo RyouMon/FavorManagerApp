@@ -65,4 +65,10 @@ class FavorsPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildCategoryTab(String title) {
+    return Tab(
+      child: Text(title),
+    );
+  }
 }
