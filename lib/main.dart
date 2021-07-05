@@ -118,6 +118,14 @@ class FavorsPageState extends State<FavorsPage> {
       refusedFavors.add(favor.copyWith(accepted: false));
     });
   }
+
+  void complete(Favor favor) {
+    setState(() {
+      acceptedFavors.remove(favor);
+
+      completedFavors.add(favor.copyWith(completed: DateTime.now()));
+    });
+  }
 }
 
 class FavorsList extends StatelessWidget {
@@ -225,7 +233,11 @@ class FavorCardItem extends StatelessWidget {
                 FavorsPageState.of(context).giveUp(favor);
               },
               child: Text("Give up")),
-          TextButton(onPressed: () {}, child: Text("Complete")),
+          TextButton(
+              onPressed: () {
+                FavorsPageState.of(context).complete(favor);
+              },
+              child: Text("Complete")),
         ],
       );
     }
