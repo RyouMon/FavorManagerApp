@@ -16,30 +16,45 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: FavorsPage(
-        pendingAnswerFavors: mockPendingFavors,
-        completedFavors: mockCompletedFavors,
-        refusedFavors: mockRefusedFavors,
-        acceptedFavors: mockDoingFavors,
-      ),
+      home: FavorsPage(),
     );
   }
 }
 
-class FavorsPage extends StatelessWidget {
-  // using mock values from mock_favors file for now
-  final List<Favor> pendingAnswerFavors;
-  final List<Favor> acceptedFavors;
-  final List<Favor> completedFavors;
-  final List<Favor> refusedFavors;
-
+class FavorsPage extends StatefulWidget {
   FavorsPage({
     Key? key,
-    required this.pendingAnswerFavors,
-    required this.acceptedFavors,
-    required this.completedFavors,
-    required this.refusedFavors,
   }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => FavorsPageState();
+}
+
+class FavorsPageState extends State<FavorsPage> {
+  // using mock values from mock_favors file for now
+  late List<Favor> pendingAnswerFavors;
+  late List<Favor> acceptedFavors;
+  late List<Favor> completedFavors;
+  late List<Favor> refusedFavors;
+
+  @override
+  void initState() {
+    super.initState();
+
+    pendingAnswerFavors = [];
+    acceptedFavors = [];
+    completedFavors = [];
+    refusedFavors = [];
+
+    loadFavors();
+  }
+
+  void loadFavors() {
+    pendingAnswerFavors.addAll(mockPendingFavors);
+    acceptedFavors.addAll(mockDoingFavors);
+    completedFavors.addAll(mockCompletedFavors);
+    refusedFavors.addAll(mockRefusedFavors);
+  }
 
   @override
   Widget build(BuildContext context) {
