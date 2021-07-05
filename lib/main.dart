@@ -110,6 +110,14 @@ class FavorsPageState extends State<FavorsPage> {
       acceptedFavors.add(favor.copyWith(accepted: true));
     });
   }
+
+  void giveUp(Favor favor) {
+    setState(() {
+      acceptedFavors.remove(favor);
+
+      refusedFavors.add(favor.copyWith(accepted: false));
+    });
+  }
 }
 
 class FavorsList extends StatelessWidget {
@@ -212,7 +220,11 @@ class FavorCardItem extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          TextButton(onPressed: () {}, child: Text("Give up")),
+          TextButton(
+              onPressed: () {
+                FavorsPageState.of(context).giveUp(favor);
+              },
+              child: Text("Give up")),
           TextButton(onPressed: () {}, child: Text("Complete")),
         ],
       );
