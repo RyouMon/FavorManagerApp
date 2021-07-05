@@ -102,6 +102,14 @@ class FavorsPageState extends State<FavorsPage> {
       refusedFavors.add(favor.copyWith(accepted: false));
     });
   }
+
+  void acceptToDo(Favor favor) {
+    setState(() {
+      pendingAnswerFavors.remove(favor);
+
+      acceptedFavors.add(favor.copyWith(accepted: true));
+    });
+  }
 }
 
 class FavorsList extends StatelessWidget {
@@ -191,7 +199,11 @@ class FavorCardItem extends StatelessWidget {
                 FavorsPageState.of(context).refuseToDo(favor);
               },
               child: Text("Refuse")),
-          TextButton(onPressed: () {}, child: Text("Do")),
+          TextButton(
+              onPressed: () {
+                FavorsPageState.of(context).acceptToDo(favor);
+              },
+              child: Text("Do")),
         ],
       );
     }
