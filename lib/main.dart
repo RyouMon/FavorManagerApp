@@ -56,6 +56,10 @@ class FavorsPageState extends State<FavorsPage> {
     refusedFavors.addAll(mockRefusedFavors);
   }
 
+  static FavorsPageState of(BuildContext context) {
+    return context.findAncestorStateOfType<FavorsPageState>()!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -89,6 +93,14 @@ class FavorsPageState extends State<FavorsPage> {
     return Tab(
       child: Text(title),
     );
+  }
+
+  void refuseToDo(Favor favor) {
+    setState(() {
+      pendingAnswerFavors.remove(favor);
+
+      refusedFavors.add(favor.copyWith(accepted: false));
+    });
   }
 }
 
@@ -134,7 +146,7 @@ class FavorCardItem extends StatelessWidget {
           children: <Widget>[
             _itemHeader(favor),
             Text(favor.description),
-            _itemFooter(favor),
+            _itemFooter(context, favor),
           ],
         ),
       ),
@@ -158,7 +170,7 @@ class FavorCardItem extends StatelessWidget {
     );
   }
 
-  Widget _itemFooter(Favor favor) {
+  Widget _itemFooter(BuildContext context, Favor favor) {
     if (favor.isCompleted) {
       final format = DateFormat();
       return Container(
@@ -174,7 +186,11 @@ class FavorCardItem extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          TextButton(onPressed: () {}, child: Text("Refuse")),
+          TextButton(
+              onPressed: () {
+                FavorsPageState.of(context).refuseToDo(favor);
+              },
+              child: Text("Refuse")),
           TextButton(onPressed: () {}, child: Text("Do")),
         ],
       );
