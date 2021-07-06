@@ -251,11 +251,16 @@ class FavorCardItem extends StatelessWidget {
   }
 }
 
-class RequestFavorPage extends StatelessWidget {
+class RequestFavorPage extends StatefulWidget {
   final List<Friend> friends;
 
   RequestFavorPage({Key? key, required this.friends}) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() => RequestFavorPageState();
+}
+
+class RequestFavorPageState extends State<RequestFavorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -280,7 +285,7 @@ class RequestFavorPage extends StatelessWidget {
             children: <Widget>[
               Text("Request a favor to: "),
               DropdownButtonFormField(
-                items: friends
+                items: widget.friends
                     .map((e) => DropdownMenuItem(
                           child: Text(e.name),
                           value: e,
