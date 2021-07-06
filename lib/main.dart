@@ -275,7 +275,10 @@ class RequestFavorPage extends StatelessWidget {
               Text("Request a favor to: "),
               DropdownButtonFormField(
                 items: friends
-                    .map((e) => DropdownMenuItem(child: Text(e.name)))
+                    .map((e) => DropdownMenuItem(
+                          child: Text(e.name),
+                          value: e,
+                        ))
                     .toList(),
               ),
               Container(
