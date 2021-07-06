@@ -81,7 +81,12 @@ class FavorsPageState extends State<FavorsPage> {
           FavorsList(title: "Refused", favors: refusedFavors),
         ]),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => RequestFavorPage(
+                      friends: mockFriends,
+                    )));
+          },
           tooltip: 'Ask a favor',
           child: Icon(Icons.add),
         ),
