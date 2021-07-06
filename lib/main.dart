@@ -262,7 +262,7 @@ class RequestFavorPage extends StatefulWidget {
 
 class RequestFavorPageState extends State<RequestFavorPage> {
   final _formKey = GlobalKey<FormState>();
-  
+
   static RequestFavorPageState of(BuildContext context) {
     return context.findAncestorStateOfType<RequestFavorPageState>()!;
   }
@@ -336,5 +336,12 @@ class RequestFavorPageState extends State<RequestFavorPage> {
               ),
             )) // continues below,
         );
+  }
+
+  void save() {
+    if (_formKey.currentState!.validate()) {
+      // store the favor request on firebase
+      Navigator.pop(context);
+    }
   }
 }
