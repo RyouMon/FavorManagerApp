@@ -261,6 +261,8 @@ class RequestFavorPage extends StatefulWidget {
 }
 
 class RequestFavorPageState extends State<RequestFavorPage> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -278,55 +280,57 @@ class RequestFavorPageState extends State<RequestFavorPage> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text("Request a favor to: "),
-              DropdownButtonFormField(
-                items: widget.friends
-                    .map((e) => DropdownMenuItem(
-                          child: Text(e.name),
-                          value: e,
-                        ))
-                    .toList(),
+            padding: const EdgeInsets.all(12.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Request a favor to: "),
+                  DropdownButtonFormField(
+                    items: widget.friends
+                        .map((e) => DropdownMenuItem(
+                              child: Text(e.name),
+                              value: e,
+                            ))
+                        .toList(),
+                  ),
+                  Container(
+                    height: 16.0,
+                  ),
+                  Text("Favor description:"),
+                  TextFormField(
+                    maxLines: 5,
+                    inputFormatters: [LengthLimitingTextInputFormatter(200)],
+                  ),
+                  Container(
+                    height: 16.0,
+                  ),
+                  Text("Due Date:"),
+                  DateTimeField(
+                    format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
+                    onShowPicker: (context, currentValue) async {
+                      final date = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime(2100));
+                      if (date != null) {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(
+                              currentValue ?? DateTime.now()),
+                        );
+                        return DateTimeField.combine(date, time);
+                      } else {
+                        return currentValue;
+                      }
+                    },
+                  )
+                ],
               ),
-              Container(
-                height: 16.0,
-              ),
-              Text("Favor description:"),
-              TextFormField(
-                maxLines: 5,
-                inputFormatters: [LengthLimitingTextInputFormatter(200)],
-              ),
-              Container(
-                height: 16.0,
-              ),
-              Text("Due Date:"),
-              DateTimeField(
-                format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
-                onShowPicker: (context, currentValue) async {
-                  final date = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(1900),
-                      initialDate: currentValue ?? DateTime.now(),
-                      lastDate: DateTime(2100));
-                  if (date != null) {
-                    final time = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.fromDateTime(
-                          currentValue ?? DateTime.now()),
-                    );
-                    return DateTimeField.combine(date, time);
-                  } else {
-                    return currentValue;
-                  }
-                },
-              )
-            ],
-          ),
-        ) // continues below,
+            )) // continues below,
         );
   }
 }
