@@ -263,7 +263,13 @@ class RequestFavorPage extends StatelessWidget {
           title: Text("Requesting a favor"),
           leading: CloseButton(),
           actions: <Widget>[
-            TextButton(onPressed: () {}, child: Text("SAVE")),
+            TextButton(
+              onPressed: () {},
+              child: Text("SAVE"),
+              style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white)),
+            ),
           ],
         ),
         body: Padding(
