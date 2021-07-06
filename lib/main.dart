@@ -262,6 +262,10 @@ class RequestFavorPage extends StatefulWidget {
 
 class RequestFavorPageState extends State<RequestFavorPage> {
   final _formKey = GlobalKey<FormState>();
+  
+  static RequestFavorPageState of(BuildContext context) {
+    return context.findAncestorStateOfType<RequestFavorPageState>()!;
+  }
 
   @override
   Widget build(BuildContext context) {
