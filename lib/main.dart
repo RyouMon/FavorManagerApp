@@ -352,6 +352,12 @@ class RequestFavorPageState extends State<RequestFavorPage> {
                         return currentValue;
                       }
                     },
+                    validator: (dateTime) {
+                      if (dateTime == null) {
+                        return "You must select a due date time for the favor";
+                      }
+                      return null;
+                    },
                   )
                 ],
               ),
