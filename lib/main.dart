@@ -308,6 +308,12 @@ class RequestFavorPageState extends State<RequestFavorPage> {
                               value: e,
                             ))
                         .toList(),
+                    validator: (friend) {
+                      if (friend == null) {
+                        return "You must select a friend to ask the favor";
+                      }
+                      return null;
+                    },
                   ),
                   Container(
                     height: 16.0,
