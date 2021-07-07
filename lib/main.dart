@@ -322,6 +322,12 @@ class RequestFavorPageState extends State<RequestFavorPage> {
                   TextFormField(
                     maxLines: 5,
                     inputFormatters: [LengthLimitingTextInputFormatter(200)],
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "You must detail the favor";
+                      }
+                      return null;
+                    },
                   ),
                   Container(
                     height: 16.0,
