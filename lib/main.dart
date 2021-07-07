@@ -262,6 +262,7 @@ class RequestFavorPage extends StatefulWidget {
 
 class RequestFavorPageState extends State<RequestFavorPage> {
   final _formKey = GlobalKey<FormState>();
+  Friend? _selectedFriend;
 
   static RequestFavorPageState of(BuildContext context) {
     return context.findAncestorStateOfType<RequestFavorPageState>()!;
@@ -295,6 +296,12 @@ class RequestFavorPageState extends State<RequestFavorPage> {
                 children: <Widget>[
                   Text("Request a favor to: "),
                   DropdownButtonFormField(
+                    value: _selectedFriend,
+                    onChanged: (Friend? friend) {
+                      setState(() {
+                        _selectedFriend = friend;
+                      });
+                    },
                     items: widget.friends
                         .map((e) => DropdownMenuItem(
                               child: Text(e.name),
