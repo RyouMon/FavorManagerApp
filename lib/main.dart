@@ -275,7 +275,9 @@ class RequestFavorPageState extends State<RequestFavorPage> {
           leading: CloseButton(),
           actions: <Widget>[
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                save();
+              },
               child: Text("SAVE"),
               style: ButtonStyle(
                   foregroundColor:
