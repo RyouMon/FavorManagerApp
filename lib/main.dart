@@ -144,10 +144,17 @@ class FavorsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle = Theme.of(context).textTheme.headline6;
+
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Padding(padding: EdgeInsets.only(top: 16.0), child: Text(title)),
+        Padding(
+            padding: EdgeInsets.only(top: 16.0),
+            child: Text(
+              title,
+              style: titleStyle,
+            )),
         Expanded(
             child: ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
