@@ -184,7 +184,7 @@ class FavorCardItem extends StatelessWidget {
         padding: EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            _itemHeader(favor),
+            _itemHeader(context, favor),
             Text(favor.description, style: bodyStyle),
             _itemFooter(context, favor),
           ],
@@ -193,7 +193,9 @@ class FavorCardItem extends StatelessWidget {
     );
   }
 
-  Row _itemHeader(Favor favor) {
+  Row _itemHeader(BuildContext context, Favor favor) {
+    final headerStyle = Theme.of(context).textTheme.subtitle1;
+
     return Row(
       children: <Widget>[
         CircleAvatar(
@@ -204,7 +206,10 @@ class FavorCardItem extends StatelessWidget {
         Expanded(
             child: Padding(
           padding: EdgeInsets.only(left: 8.0),
-          child: Text("${favor.friend.name} asked you to"),
+          child: Text(
+            "${favor.friend.name} asked you to",
+            style: headerStyle,
+          ),
         ))
       ],
     );
