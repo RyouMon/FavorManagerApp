@@ -175,6 +175,8 @@ class FavorCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bodyStyle = Theme.of(context).textTheme.headline6;
+
     return Card(
       key: ValueKey(favor.uuid),
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
@@ -183,7 +185,7 @@ class FavorCardItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _itemHeader(favor),
-            Text(favor.description),
+            Text(favor.description, style: bodyStyle),
             _itemFooter(context, favor),
           ],
         ),
