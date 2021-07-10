@@ -5,6 +5,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:favors_manager/mock_values.dart';
 import 'package:favors_manager/favor.dart';
 import 'package:favors_manager/friend.dart';
+import 'package:favors_manager/app_theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       home: FavorsPage(),
+      theme: lightTheme,
     );
   }
 }
