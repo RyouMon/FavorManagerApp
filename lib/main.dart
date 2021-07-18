@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +18,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return CupertinoApp(
+        home: FavorsPage(),
+      );
+    }
     return MaterialApp(
       title: 'Flutter Demo',
       home: FavorsPage(),
@@ -64,18 +72,54 @@ class FavorsPageState extends State<FavorsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var tabs = [
+      _buildCategoryTab("Requests", Icons.help_outline),
+      _buildCategoryTab("Doing", Icons.directions_run),
+      _buildCategoryTab("Completed", Icons.done),
+      _buildCategoryTab("Refused", Icons.close),
+    ];
+
+    if (Platform.isIOS) {
+      return SafeArea(
+          child: CupertinoTabScaffold(
+        tabBar: CupertinoTabBar(
+          items: tabs.map((e) => e as BottomNavigationBarItem).toList(),
+        ),
+        tabBuilder: (BuildContext context, int index) {
+          return CupertinoTabView(
+            builder: (context) {
+              switch (index) {
+                case 0:
+                  return FavorsList(
+                    title: "Pending Requests",
+                    favors: pendingAnswerFavors,
+                  );
+                case 1:
+                  return FavorsList(title: "Doing", favors: acceptedFavors);
+                case 2:
+                  return FavorsList(
+                      title: "Completed", favors: completedFavors);
+                case 3:
+                  return FavorsList(title: "Refused", favors: refusedFavors);
+
+                default:
+                  return RequestFavorPage(friends: mockFriends);
+              }
+            },
+          );
+        },
+      ));
+    }
+
     return DefaultTabController(
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Your favors"),
-          bottom: TabBar(tabs: [
-            _buildCategoryTab("Requests"),
-            _buildCategoryTab("Doing"),
-            _buildCategoryTab("Completed"),
-            _buildCategoryTab("Refused"),
-          ]),
-        ),
+            title: Text("Your favors"),
+            bottom: TabBar(
+              isScrollable: true,
+              tabs: tabs.map((e) => e as Widget).toList(),
+            )),
         body: TabBarView(children: [
           FavorsList(title: "Pending Requests", favors: pendingAnswerFavors),
           FavorsList(title: "Doing", favors: acceptedFavors),
@@ -96,8 +140,12 @@ class FavorsPageState extends State<FavorsPage> {
     );
   }
 
-  Widget _buildCategoryTab(String title) {
+  _buildCategoryTab(String title, IconData iconData) {
+    if (Platform.isIOS) {
+      return BottomNavigationBarItem(icon: Icon(iconData), label: title);
+    }
     return Tab(
+      icon: Icon(iconData),
       child: Text(title),
     );
   }
@@ -218,12 +266,17 @@ class FavorCardItem extends StatelessWidget {
   Widget _itemFooter(BuildContext context, Favor favor) {
     if (favor.isCompleted) {
       final format = DateFormat();
+      final completedTextWidget = Text(
+        "Completed at: ${format.format(favor.completed!)}",
+      );
       return Container(
         margin: EdgeInsets.only(top: 8.0),
         alignment: Alignment.centerRight,
-        child: Chip(
-          label: Text("Completed at: ${format.format(favor.completed!)}"),
-        ),
+        child: Platform.isIOS
+            ? completedTextWidget
+            : Chip(
+                label: completedTextWidget,
+              ),
       );
     }
 
