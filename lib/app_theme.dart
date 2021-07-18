@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final lightTheme = ThemeData(
@@ -8,3 +9,5 @@ final lightTheme = ThemeData(
   primaryColorBrightness: Brightness.dark,
   cardColor: Colors.lightGreen.shade100,
 );
+
+final cupertinoLightTheme = CupertinoThemeData();

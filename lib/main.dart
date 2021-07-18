@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
     if (Platform.isIOS) {
       return CupertinoApp(
         home: FavorsPage(),
+        theme: cupertinoLightTheme,
       );
     }
     return MaterialApp(
