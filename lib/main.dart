@@ -256,7 +256,14 @@ class FavorCardItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _itemHeader(context, favor),
-            Text(favor.description, style: bodyStyle),
+            Expanded(
+                child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                favor.description,
+                style: bodyStyle,
+              ),
+            )),
             _itemFooter(context, favor),
           ],
         ),
