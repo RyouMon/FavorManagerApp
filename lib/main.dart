@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -184,6 +185,8 @@ class FavorsPageState extends State<FavorsPage> {
   }
 }
 
+const kFavorCardMaxWidth = 450.0; // a maximum card width
+
 class FavorsList extends StatelessWidget {
   final String title;
   final List<Favor> favors;
@@ -204,15 +207,34 @@ class FavorsList extends StatelessWidget {
               title,
               style: titleStyle,
             )),
-        Expanded(
-            child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  final favor = favors[index];
-                  return FavorCardItem(favor: favor);
-                },
-                itemCount: favors.length,
-                physics: BouncingScrollPhysics()))
+        Expanded(child: _buildCardList(context))
       ],
+    );
+  }
+
+  Widget _buildCardList(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardsPerRow = max(screenWidth ~/ kFavorCardMaxWidth, 1);
+    if (screenWidth > 400) {
+      return GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 2.8, crossAxisCount: cardsPerRow),
+        itemBuilder: (BuildContext context, int index) {
+          final faovr = favors[index];
+          return FavorCardItem(favor: faovr);
+        },
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        itemCount: favors.length,
+      );
+    }
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        final favor = favors[index];
+        return FavorCardItem(favor: favor);
+      },
+      itemCount: favors.length,
+      physics: BouncingScrollPhysics(),
     );
   }
 }
